@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Assignment Form</title>
+  <link rel="stylesheet" href="assignment_form.css" />
+  <link rel="icon" type="image/x-icon" href="diulogo.png" />
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- jQuery UI CSS -->
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" />
+  <!-- jQuery UI JS -->
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+  <!-- flatpickr CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+  <!-- flatpickr JS -->
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+
+</head>
+
+<body>
+
+  <header>
+    <!-- Logo fixed top-left -->
+    <div class="logo-container">
+      <img src="logo.png" alt="DIU Logo" />
+      <div class="university-text">Daffodil International University</div>
+    </div>
+    <button id="backBtn">Back to Home</button>
+  </header>
+
+  <main>
+    <form id="assignmentForm">
+      <h2>Assignment Cover Page Form</h2>
+
+      <label for="department">Department</label>
+      <input list="departmentOptions" id="department" name="department" required placeholder="Type or select department"
+        autocomplete="off" />
+      <datalist id="departmentOptions">
+        <option value="Department of Computer Science and Engineering"></option>
+        <option value="Department of Software Engineering"></option>
+        <option value="Department of Multimedia & Creative Technology (MCT)"></option>
+        <option value="Department of Computing and Information System"></option>
+        <option value="Department of Information Technology & Management (ITM)"></option>
+        <option value="Department of Business Administration"></option>
+        <option value="Department of Management"></option>
+        <option value="Department of Real Estate"></option>
+        <option value="Department of Tourism & Hospitality Management"></option>
+        <option value="Department of Innovation & Entrepreneurship"></option>
+        <option value="Department of Accounting"></option>
+        <option value="Department of Finance & Banking"></option>
+        <option value="Department of Marketing"></option>
+        <option value="Department of Information and Communication Engineering"></option>
+        <option value="Department of Textile Engineering"></option>
+        <option value="Department of Electrical and Electronic Engineering"></option>
+        <option value="Department of Architecture"></option>
+        <option value="Department of Civil Engineering"></option>
+        <option value="Department of Environmental Science and Disaster Management"></option>
+        <option value="Department of Pharmacy"></option>
+        <option value="Department of Nutrition and Food Engineering"></option>
+        <option value="Department of Public Health"></option>
+        <option value="Department of Physical Education & Sports Science"></option>
+        <option value="Department of Agricultural Science"></option>
+        <option value="Department of Genetic Engineering and Biotechnology"></option>
+        <option value="Department of English"></option>
+        <option value="Department of Law"></option>
+        <option value="Department of Journalism, Media and Communication"></option>
+        <option value="Department of Development Studies"></option>
+      </datalist>
+
+
+
+      <label for="faculty">Faculty</label>
+      <input list="facultyOptions" id="faculty" name="faculty" required placeholder="Type or select faculty"
+        autocomplete="off" />
+      <datalist id="facultyOptions">
+        <option value="Faculty of Science and Information Technology"></option>
+        <option value="Faculty of Health and Life Sciences"></option>
+        <option value="Faculty of Business & Entrepreneurship"></option>
+        <option value="Faculty of Humanities & Social Sciences"></option>
+        <option value="Faculty of Engineering"></option>
+      </datalist>
+
+
+      <label for="courseCode">Course Code</label>
+      <input type="text" id="courseCode" required />
+
+      <label for="courseTitle">Course Title</label>
+      <input type="text" id="courseTitle" required />
+
+      <label for="topic">Topic</label>
+      <input type="text" id="topic" required />
+
+      <fieldset>
+        <legend>Submitted By</legend>
+        <label for="studentName">Name</label>
+        <input type="text" id="studentName" required />
+
+        <label for="studentId">Student ID</label>
+        <input type="text" id="studentId" required />
+
+        <label for="section">Section</label>
+        <input type="text" id="section" required />
+
+        <label for="semester">Semester</label>
+        <div class="semester-year">
+          <select id="semester" required>
+            <option value="" disabled selected>Select semester</option>
+            <option value="Spring">Spring</option>
+            <option value="Summer">Summer</option>
+            <option value="Fall">Fall</option>
+          </select>
+          <input type="text" id="year" readonly />
+        </div>
+
+        <label for="submittedDepartment">Department</label>
+        <input type="text" id="submittedDepartment" required />
+
+        <label for="university">University</label>
+        <input type="text" id="university" value="Daffodil International University" readonly />
+      </fieldset>
+
+      <fieldset>
+        <legend>Submitted To</legend>
+        <label for="submittedToName">Name</label>
+        <input type="text" id="submittedToName" required />
+
+        <label for="designation">Designation</label>
+        <input type="text" id="designation" required />
+
+        <label for="submittedToDepartment">Department</label>
+        <input type="text" id="submittedToDepartment" required />
+
+        <label for="submittedToUniversity">University</label>
+        <input type="text" id="submittedToUniversity" value="Daffodil International University" readonly />
+      </fieldset>
+
+      <label for="submissionDate">Date of Submission</label>
+      <input type="text" id="submissionDate" required placeholder="dd/mm/yyyy" autocomplete="off" />
+
+      <button type="submit" class="preview-btn">Preview Cover Page</button>
+    </form>
+  </main>
+
+  <script src="assignment_form.js"></script>
+</body>
+
+</html>

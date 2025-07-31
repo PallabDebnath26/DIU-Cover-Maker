@@ -1,0 +1,86 @@
+/* Use Inter font everywhere */
+body {
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Logo style at the top */
+.logo-top {
+  max-height: 80px;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Cover page buttons */
+.cover-type-btn {
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  border-width: 2px;
+  font-size: 1rem;
+  border-radius: 0.75rem;
+}
+
+/* Highlight selected button */
+.cover-type-btn.selected {
+  box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.3); /* Blue outline */
+  font-weight: 700;
+  transform: scale(1.03);
+}
+
+/* Smooth hover and click effect */
+.cover-type-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Container animation */
+.container-box {
+  transition: all 0.3s ease-in-out;
+}
+.container-box:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  transform: scale(1.01);
+}
+
+/* ========== Footer Styles ========== */
+footer {
+  text-align: center;
+  font-size: 0.875rem;
+  color: #4b5563; /* Tailwind gray-600 */
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Footer social icons */
+footer .social-icons img {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.2s ease-in-out;
+}
+
+footer .social-icons a:hover img {
+  transform: scale(1.2);
+}
+
+/* Footer links */
+footer a {
+  color: #1e40af; /* Tailwind blue-900 */
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive spacing */
+@media (max-width: 640px) {
+  footer {
+    font-size: 0.75rem;
+    padding: 0 1rem;
+  }
+
+  footer .social-icons {
+    gap: 0.75rem;
+  }
+}

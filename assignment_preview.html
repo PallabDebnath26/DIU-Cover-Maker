@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="icon" type="image/x-icon" href="diulogo.png" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Assignment Cover Page Preview</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 30px 20px;
+      font-family: 'Times New Roman', serif;
+      background: linear-gradient(to right bottom, #a1ffce, #faffd1);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    #downloadBtn {
+      position: fixed;
+      top: 1rem;
+      right: 2rem;
+      background-color: #1e40af;
+      color: white;
+      padding: 0.5rem 1.2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      animation: slideInRight 0.6s ease-out;
+    }
+
+    #downloadBtn:hover {
+      background-color: #2563eb;
+      transform: scale(1.05);
+    }
+
+    #coverPage {
+      background: #ffffff;
+      width: 794px;
+      min-height: 1123px;
+      padding: 60px 50px;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+
+    .logo-container img {
+      max-width: 300px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .university-name {
+      font-size: 2rem;
+      font-weight: bold;
+      margin: 10px 0;
+      color: #2c3e50;
+    }
+
+    .center-info {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #2c3e50;
+      margin: 4px 0;
+      font-style: italic;
+    }
+
+
+    .assignment-box {
+      margin-top: 25px;
+      border: 2px solid black;
+      padding: 8px 16px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: red;
+      display: inline-block;
+      border-radius: 6px;
+    }
+
+    .course-details-left {
+      margin-top: 5%;
+      text-align: left;
+      max-width: 400px;
+      margin-left: 0;
+    }
+
+    .field-container {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin: 6px 0;
+    }
+
+    .field-label {
+      font-weight: 700;
+      font-size: 1rem;
+      color: #34495e;
+      flex-shrink: 0;
+    }
+
+    .field-value {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #2c3e50;
+      flex-grow: 1;
+    }
+
+    .topic-box {
+      margin-top: 25px;
+      display: inline-block;
+      border: 1.5px solid #1a237e;
+      padding: 8px 16px;
+      border-radius: 6px;
+      background-color: #fdfdfd;
+      font-size: 1.1rem;
+      color: #1a237e;
+      font-weight: 600;
+    }
+
+    .topic-label {
+      font-weight: 700;
+      margin-right: 5px;
+    }
+
+    .submitted-section {
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    .submitted-section h3 {
+      margin-bottom: 12px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: red;
+      border-bottom: 2px solid red;
+      display: inline-block;
+      padding-bottom: 3px;
+    }
+
+    .submitted-line {
+      font-size: 1.1rem;
+      margin: 2px 0;
+    }
+
+    .submitted-label {
+      font-weight: bold;
+      color: #2c3e50;
+    }
+
+    .submitted-bold {
+      font-weight: bold;
+    }
+
+    .course-details-left .field-label {
+      color: green !important;
+    }
+
+    /* Date of Submission Box - make background transparent */
+    .date-submission-section {
+      margin-top: 50px;
+      border: 2px solid black;
+      padding: 10px 20px;
+      border-radius: 8px;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: left;
+    }
+
+    .date-label {
+      font-weight: bold;
+      color: #e74c3c;
+      font-size: 1.1rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  <button id="downloadBtn">Download PDF</button>
+
+  <div id="coverPage">
+    <div class="logo-container">
+      <img src="logo.png" alt="University Logo" />
+    </div>
+
+    <div class="university-name">Daffodil International University</div>
+
+    <div class="center-info" id="previewDepartment"></div>
+    <div class="center-info" id="previewFaculty"></div>
+
+    <div class="assignment-box">ASSIGNMENT</div>
+
+    <div class="course-details-left">
+      <div class="field-container">
+        <span class="field-label">Course Code:</span>
+        <span class="field-value" id="previewCourseCode"></span>
+      </div>
+      <div class="field-container">
+        <span class="field-label">Course Title:</span>
+        <span class="field-value" id="previewCourseTitle"></span>
+      </div>
+    </div>
+
+    <div class="topic-box">
+      <span class="topic-label">Topic:</span>
+      <span class="topic-value" id="previewTopic"></span>
+    </div>
+
+    <!-- Submitted By -->
+    <div class="submitted-section">
+      <h3>Submitted By</h3>
+      <div class="submitted-line"><span class="submitted-label">Name:</span> <span id="previewStudentName"></span></div>
+      <div class="submitted-line"><span class="submitted-label">ID:</span> <span id="previewStudentId"></span></div>
+      <div class="submitted-line"><span class="submitted-label">Section:</span> <span id="previewSection"></span></div>
+      <div class="submitted-line"><span class="submitted-label">Semester:</span> <span id="previewSemesterYear"></span>
+      </div>
+      <div class="submitted-line"><span class="submitted-label">Department:</span> <span
+          id="previewSubmittedDepartment"></span></div>
+      <div class="submitted-line submitted-bold" id="previewUniversity"></div>
+    </div>
+
+    <!-- Submitted To -->
+    <div class="submitted-section">
+      <h3>Submitted To</h3>
+      <div class="submitted-line"><span class="submitted-label">Name:</span> <span id="previewSubmittedToName"></span>
+      </div>
+      <div class="submitted-line"><span class="submitted-label">Designation:</span> <span
+          id="previewDesignation"></span></div>
+      <div class="submitted-line"><span class="submitted-label">Department:</span> <span
+          id="previewSubmittedToDepartment"></span></div>
+      <div class="submitted-line submitted-bold" id="previewSubmittedToUniversity"></div>
+    </div>
+
+    <!-- Date of Submission -->
+    <div class="date-submission-section">
+      <div class="submitted-line">
+        <span class="date-label">Date of Submission:</span>
+        <span id="previewSubmissionDate"></span>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const data = JSON.parse(sessionStorage.getItem('assignmentData'));
+
+    if (!data) {
+      alert('No data found. Please fill the form first.');
+      window.location.href = 'assignment_form.html';
+    } else {
+      document.getElementById('previewDepartment').textContent = data.department || '';
+      document.getElementById('previewFaculty').textContent = data.faculty || '';
+      document.getElementById('previewCourseCode').textContent = data.courseCode || '';
+      document.getElementById('previewCourseTitle').textContent = data.courseTitle || '';
+      document.getElementById('previewTopic').textContent = data.topic || '';
+
+      // Submitted By
+      document.getElementById('previewStudentName').textContent = data.submittedBy.name || '';
+      document.getElementById('previewStudentId').textContent = data.submittedBy.studentId || '';
+      document.getElementById('previewSection').textContent = data.submittedBy.section || '';
+      document.getElementById('previewSemesterYear').textContent = `${data.submittedBy.semester || ''} ${data.submittedBy.year || ''}`;
+      document.getElementById('previewSubmittedDepartment').textContent = data.submittedBy.department || '';
+      document.getElementById('previewUniversity').textContent = data.submittedBy.university || '';
+
+      // Submitted To
+      document.getElementById('previewSubmittedToName').textContent = data.submittedTo.name || '';
+      document.getElementById('previewDesignation').textContent = data.submittedTo.designation || '';
+      document.getElementById('previewSubmittedToDepartment').textContent = data.submittedTo.department || '';
+      document.getElementById('previewSubmittedToUniversity').textContent = data.submittedTo.university || '';
+
+      // Date of Submission - convert to dd/mm/yyyy format and display
+      if (data.submissionDate) {
+        let dateObj = new Date(data.submissionDate);
+        if (!isNaN(dateObj)) {
+          let dd = String(dateObj.getDate()).padStart(2, '0');
+          let mm = String(dateObj.getMonth() + 1).padStart(2, '0'); // Month is zero-based
+          let yyyy = dateObj.getFullYear();
+          document.getElementById('previewSubmissionDate').textContent = `${dd}/${mm}/${yyyy}`;
+        } else {
+          document.getElementById('previewSubmissionDate').textContent = data.submissionDate;
+        }
+      } else {
+        document.getElementById('previewSubmissionDate').textContent = '';
+      }
+    }
+
+    document.getElementById('downloadBtn').addEventListener('click', () => {
+      const cover = document.getElementById('coverPage');
+
+      const wrapper = document.createElement('div');
+      wrapper.style.background = '#fff';
+      wrapper.style.border = '3px solid black';
+      wrapper.style.width = '794px';
+      wrapper.style.height = '1123px';
+      wrapper.style.display = 'flex';
+      wrapper.style.justifyContent = 'center';
+      wrapper.style.alignItems = 'center';
+
+      const cloned = cover.cloneNode(true);
+      cloned.style.margin = '0';
+      wrapper.appendChild(cloned);
+      document.body.appendChild(wrapper);
+
+      html2canvas(wrapper, { scale: 5, useCORS: true }).then(canvas => {
+        const imgData = canvas.toDataURL('image/jpeg', 1.0);
+
+        // jspdf কে mm ইউনিটে A4 সাইজ (210 x 297 mm) সেট করেছো
+        const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
+
+        // Calculate image width and height in mm to keep aspect ratio
+        const pdfWidth = 210;
+        const pdfHeight = 297;
+
+        // Add image to PDF
+        pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+
+        // Double blue border
+        pdf.setDrawColor(0, 0, 139);
+        pdf.setLineWidth(0.4);
+        pdf.rect(6, 6, 198, 285);
+        pdf.rect(7.5, 7.5, 195, 282);
+
+        // Add watermark logo
+        const logoImg = new Image();
+        logoImg.src = 'diulogo.png';
+        logoImg.crossOrigin = "anonymous";
+
+        logoImg.onload = function () {
+          const logoWidthMM = 130;
+          const logoHeightMM = (logoImg.height / logoImg.width) * logoWidthMM;
+          const x = (210 - logoWidthMM) / 2;
+          const y = (297 - logoHeightMM) / 2;
+
+          pdf.setGState(new pdf.GState({ opacity: 0.1 }));
+          pdf.addImage(logoImg, 'PNG', x, y, logoWidthMM, logoHeightMM);
+          pdf.setGState(new pdf.GState({ opacity: 1 }));
+
+          pdf.save("assignment_cover_page.pdf");
+          document.body.removeChild(wrapper);
+        };
+
+        logoImg.onerror = function () {
+          pdf.save("assignment_cover_page.pdf");
+          document.body.removeChild(wrapper);
+        };
+      });
+
+    });
+  </script>
+
+</body>
+
+</html>

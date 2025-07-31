@@ -1,0 +1,204 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to bottom right, #e0f2fe, #dcfce7);
+  min-height: 100vh;
+  padding: 2rem;
+  position: relative;
+}
+
+/* Logo Fixed Top Left */
+.logo-container {
+  position: fixed;
+  top: 1rem;
+  left: 1.5rem;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: slideInLeft 0.6s ease-out;
+}
+.logo-container img {
+  height: 60px;
+}
+.university-text {
+  margin-top: 0.3rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1e3a8a;
+  text-align: center;
+}
+
+/* Back Button Fixed Top Right */
+.back-button {
+  position: fixed;
+  top: 1rem;
+  right: 2rem;
+  background-color: #1e40af;
+  color: white;
+  padding: 0.5rem 1.2rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  animation: slideInRight 0.6s ease-out;
+}
+.back-button:hover {
+  background-color: #2563eb;
+  transform: scale(1.05);
+}
+
+/* Main Card */
+.main-card {
+  max-width: 800px;
+  margin: 6rem auto 4rem auto;
+  background-color: #ffffff;
+  padding: 2rem 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+  animation: slideIn 0.8s ease-out;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #1e40af;
+  font-size: 1.8rem;
+}
+
+/* Experiment List container */
+.experiment-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.3rem;
+}
+
+/* Each experiment box */
+.experiment-box {
+  background-color: #f8fafc;
+  border: 1.5px solid #cbd5e1;
+  padding: 1rem 1.2rem;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.experiment-box h3 {
+  font-size: 1.1rem;
+  color: #1d4ed8;
+  margin-bottom: 0.4rem;
+}
+
+.experiment-box label {
+  font-weight: 600;
+  color: #374151;
+  display: block;
+  margin-top: 0.4rem;
+  margin-bottom: 0.15rem;
+  font-size: 0.95rem;
+}
+
+.experiment-box input {
+  width: 100%;
+  padding: 0.45rem 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 0.95rem;
+  text-align: center; /* Input text center align */
+  background-color: #ffffff;
+  transition: border-color 0.3s ease;
+}
+
+.experiment-box input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 5px rgba(37, 99, 235, 0.6);
+}
+
+/* Submit Button container */
+.submit-container {
+  margin-top: 2.5rem;
+  text-align: center;
+  animation: fadeIn 1s ease forwards;
+}
+
+/* Submit Button style */
+.submit-button {
+  background-color: #1e40af;
+  color: white;
+  padding: 0.7rem 2.5rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: 0 6px 15px rgba(30, 64, 175, 0.4);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #2563eb;
+  transform: scale(1.05);
+}
+
+/* Animations */
+@keyframes slideIn {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(50px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-slide-in {
+  animation: slideIn 0.8s ease-out;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-in;
+}

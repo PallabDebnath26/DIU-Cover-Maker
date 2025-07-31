@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Preview Experiments</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f9fafb;
+      margin: 0;
+      padding: 2rem;
+      color: #334155;
+    }
+
+    .preview-container {
+      max-width: 1000px;
+      margin: 6rem auto;
+      background: #ffffff;
+      padding: 2.5rem 3rem;
+      border-radius: 18px;
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.1);
+      position: relative;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .preview-container:hover {
+      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.15);
+    }
+
+    #back-btn {
+      position: fixed;
+      top: 1rem;
+      right: 2rem;
+      background-color: #1e40af;
+      color: white;
+      padding: 0.6rem 1.8rem;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 1rem;
+      box-shadow: 0 6px 15px rgba(30, 64, 175, 0.45);
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      z-index: 1000;
+    }
+
+    #back-btn:hover {
+      background-color: #2563eb;
+      transform: scale(1.07);
+    }
+
+    h2 {
+      text-align: center;
+      color: #1e40af;
+      font-weight: 700;
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1.5rem;
+      table-layout: fixed;
+      word-wrap: break-word;
+      font-size: 1rem;
+    }
+
+    th,
+    td {
+      padding: 1rem 1.2rem;
+      border: 1px solid #cbd5e1;
+      text-align: center;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-weight: 700;
+      color: #1e293b;
+    }
+
+    th {
+      background-color: #e0f2fe;
+      color: #1e40af;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    th:nth-child(1),
+    td:nth-child(1) {
+      width: 8%;
+    }
+
+    th:nth-child(2),
+    td:nth-child(2) {
+      width: 40%;
+      white-space: normal;
+    }
+
+    th:nth-child(3),
+    td:nth-child(3) {
+      width: 25%;
+    }
+
+    th:nth-child(4),
+    td:nth-child(4) {
+      width: 27%;
+    }
+
+    .download-container {
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    #download-btn {
+      background-color: #1e40af;
+      color: white;
+      padding: 0.7rem 3rem;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 1.1rem;
+      box-shadow: 0 8px 20px rgba(30, 64, 175, 0.5);
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    #download-btn:hover {
+      background-color: #2563eb;
+      transform: scale(1.07);
+    }
+  </style>
+</head>
+
+<body>
+  <button id="back-btn">Back</button>
+
+  <div class="preview-container">
+    <h2>INDEX</h2>
+
+    <table id="preview-table">
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Experiment Name</th>
+          <th>Page Range</th>
+          <th>Submitted Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- JS will add rows here -->
+      </tbody>
+    </table>
+
+    <div class="download-container">
+      <button id="download-btn">Download PDF</button>
+    </div>
+  </div>
+
+  <!-- jsPDF library from CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <!-- jsPDF autotable plugin -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
+  <script>
+    const { jsPDF } = window.jspdf;
+    const experiments = JSON.parse(localStorage.getItem('experiments')) || [];
+    const tbody = document.querySelector('#preview-table tbody');
+
+    function formatDate(dateString) {
+      if (!dateString) return '-';
+      const date = new Date(dateString);
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const year = date.getFullYear();
+      return `${day}/${month}/${year}`;
+    }
+
+    // Populate table
+    experiments.forEach((exp, index) => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${index + 1}</td>
+        <td>${exp.name || '-'}</td>
+        <td>${exp.page || '-'}</td>
+        <td>${formatDate(exp.date)}</td>
+      `;
+      tbody.appendChild(row);
+    });
+
+    // Back button
+    document.getElementById('back-btn').addEventListener('click', () => {
+      window.history.back();
+    });
+
+    // Download PDF on click
+    document.getElementById('download-btn').addEventListener('click', () => {
+      const doc = new jsPDF({
+        format: 'a4',
+        unit: 'mm',
+        orientation: 'portrait',
+      });
+
+      doc.setFont('times', 'normal');
+      doc.setFontSize(20);
+      doc.setTextColor('#1e40af');
+      doc.text('INDEX', 105, 20, null, null, 'center');
+
+      const headers = [['No', 'Experiment Name', 'Page Range', 'Submitted Date']];
+      const data = experiments.map((exp, i) => [
+        i + 1,
+        exp.name || '-',
+        exp.page || '-',
+        formatDate(exp.date),
+      ]);
+
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const tableWidth = 25 + 80 + 40 + 45;
+      const marginLeft = (pageWidth - tableWidth) / 2;
+      const marginRight = marginLeft;
+
+      doc.autoTable({
+        startY: 30,
+        head: headers,
+        body: data,
+        styles: {
+          fontSize: 12,
+          halign: 'center',
+          cellPadding: 4,
+          fontStyle: 'bold',
+          overflow: 'linebreak',
+          valign: 'middle',
+          lineColor: '#888',
+          lineWidth: 0.1,
+          font: 'times',
+        },
+        headStyles: {
+          fillColor: '#e0f2fe',
+          textColor: '#1e40af',
+          fontStyle: 'bold',
+          halign: 'center',
+          lineColor: '#888',
+          lineWidth: 0.2,
+          font: 'times',
+        },
+        columnStyles: {
+          0: { cellWidth: 25 },
+          1: { cellWidth: 80, halign: 'left' },
+          2: { cellWidth: 40 },
+          3: { cellWidth: 45 },
+        },
+        theme: 'grid',
+        margin: { top: 25, left: marginLeft, right: marginRight },
+        pageBreak: 'auto',
+      });
+
+      const img = new Image();
+      img.src = 'diulogo.png';
+
+      img.onload = function () {
+        const imgWidth = 25; // smaller width
+        const imgHeight = (img.height / img.width) * imgWidth;
+
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const pageHeight = doc.internal.pageSize.getHeight();
+
+        const marginBottom = 12; // more space from bottom
+        const y = pageHeight - marginBottom - imgHeight - 16;
+        const x = (pageWidth - imgWidth) / 2;
+
+        doc.addImage(img, 'PNG', x, y, imgWidth, imgHeight);
+
+        // University name
+        doc.setFont('times', 'bold');
+        doc.setFontSize(14);
+        doc.setTextColor('#1e40af');
+        doc.text('Daffodil International University', pageWidth / 2, y + imgHeight + 8, null, null, 'center');
+
+        // Address
+        doc.setFont('times', 'normal');
+        doc.setFontSize(10);
+        doc.text(
+          'Daffodil Smart City, Birulia, Savar, Dhaka-1216, Bangladesh.',
+          pageWidth / 2,
+          y + imgHeight + 15,
+          null,
+          null,
+          'center'
+        );
+
+        doc.save('submitted-experiments.pdf');
+      };
+
+    });
+  </script>
+</body>
+
+</html>

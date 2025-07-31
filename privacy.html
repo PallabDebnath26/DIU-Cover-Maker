@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy and Policy</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            inter: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            diuBlue: '#1e40af',
+            diuGreen: '#16a34a',
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="font-inter bg-gradient-to-br from-blue-100 via-green-100 to-white min-h-screen p-8 relative">
+
+  <!-- Back to Home Button -->
+  <div class="absolute top-6 right-6">
+    <a href="index.html"
+      class="bg-diuBlue text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-800 transition duration-200">
+      ← Back to Home
+    </a>
+  </div>
+
+  <!-- Content -->
+  <div class="max-w-3xl mx-auto bg-white p-10 rounded-3xl shadow-xl mt-20">
+    <h1 class="text-3xl font-bold text-diuBlue mb-6 text-center">Privacy and Policy</h1>
+
+    <p class="mb-4">At DIU Cover Maker, we respect your privacy. This policy explains how we collect, use, and
+      protect any information you provide when using our site.</p>
+
+    <h2 class="text-xl font-semibold mt-6 mb-2 text-diuBlue">1. Information Collection</h2>
+    <p class="mb-4">We do not collect or store any personal data. All inputs are used only to generate cover pages
+      locally in your browser.</p>
+
+    <h2 class="text-xl font-semibold mt-6 mb-2 text-diuBlue">2. Data Security</h2>
+    <p class="mb-4">No user data is sent to or stored on any external servers. All processes happen within your own
+      browser session.</p>
+
+    <h2 class="text-xl font-semibold mt-6 mb-2 text-diuBlue">3. External Links</h2>
+    <p class="mb-4">Our website contains links to external DIU platforms. We are not responsible for their privacy
+      practices or content.</p>
+
+    <h2 class="text-xl font-semibold mt-6 mb-2 text-diuBlue">4. Updates to Policy</h2>
+    <p class="mb-4">This privacy policy may be updated without prior notice. Changes will be reflected on this page.</p>
+  </div>
+
+</body>
+
+</html>

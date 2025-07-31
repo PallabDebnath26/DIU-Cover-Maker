@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DIU Cover Page Generator</title>
+  <link rel="icon" type="image/x-icon" href="diulogo.png" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            inter: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            diuBlue: '#1e40af',    // Tailwind blue-900
+            diuGreen: '#16a34a',   // Tailwind green-600
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body
+  class="font-inter bg-gradient-to-br from-blue-100 via-green-100 to-white min-h-screen flex flex-col items-center justify-start pt-10">
+
+  <!-- Logo -->
+  <div class="mb-6">
+    <img src="logo.png" alt="DIU Logo" class="logo-top" />
+  </div>
+
+  <!-- Main Container -->
+  <div
+    class="w-full max-w-xl bg-white rounded-3xl shadow-xl p-10 transition-all duration-300 hover:shadow-2xl hover:scale-[1.01]">
+    <header class="text-center mb-8">
+      <h1 class="text-4xl font-bold text-diuBlue mb-2">DIU Cover Maker</h1>
+      <p class="text-gray-500 text-lg">Choose your cover page type</p>
+    </header>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+      <a href="assignment_form.html" data-type="Assignment"
+        class="cover-type-btn bg-white border border-diuBlue hover:bg-diuBlue hover:text-white text-diuBlue font-semibold py-4 px-6 rounded-xl transition duration-200 shadow-sm hover:shadow-md text-center block">
+        Assignment
+      </a>
+      <a href="lab-report.html" data-type="Lab Report"
+        class="cover-type-btn bg-white border border-diuGreen hover:bg-diuGreen hover:text-white text-diuGreen font-semibold py-4 px-6 rounded-xl transition duration-200 shadow-sm hover:shadow-md text-center block">
+        Lab Report
+      </a>
+
+      <a href="final-lab-report.html" data-type="Final Lab Report"
+        class="cover-type-btn bg-white border border-diuBlue hover:bg-diuBlue hover:text-white text-diuBlue font-semibold py-4 px-6 rounded-xl transition duration-200 shadow-sm hover:shadow-md text-center block">
+        Final Lab Report
+      </a>
+
+      <a href="index-cover.html"
+        class="cover-type-btn bg-white border border-diuGreen hover:bg-diuGreen hover:text-white text-diuGreen font-semibold py-4 px-6 rounded-xl transition duration-200 shadow-sm hover:shadow-md text-center block"
+        data-type="Index">
+        Index
+      </a>
+
+    </div>
+
+    <p id="selectedType" class="text-center mt-6 text-gray-700 text-lg font-medium"></p>
+
+    <!-- More Services -->
+    <div class="mt-10 border-t pt-6">
+      <h2 class="text-xl font-semibold text-diuBlue mb-4 text-center">More Services</h2>
+      <div class="flex justify-center gap-6">
+        <a href="https://elearn.daffodilvarsity.edu.bd/" target="_blank"
+          class="text-diuBlue hover:text-white hover:bg-diuBlue border border-diuBlue px-4 py-2 rounded-lg transition font-medium">
+          BLC
+        </a>
+        <a href="http://studentportal.diu.edu.bd/#/login" target="_blank"
+          class="text-diuGreen hover:text-white hover:bg-diuGreen border border-diuGreen px-4 py-2 rounded-lg transition font-medium">
+          Student Portal
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="text-center mt-10 mb-4 text-sm text-gray-600">
+    <p>For any feedback or suggestion, click the links below.</p>
+
+    <div class="flex justify-center space-x-4 mt-4">
+      <a href="https://t.me/Debnath2650" target="_blank" class="hover:scale-110 transition">
+        <img src="tel.png" alt="Telegram" class="w-6 h-6" />
+      </a>
+      <a href="https://www.facebook.com/share/1FurXj3Tfj/" target="_blank" class="hover:scale-110 transition">
+        <img src="fb.png" alt="Facebook" class="w-6 h-6" />
+      </a>
+      <a href="https://www.instagram.com/iamthepallab.2650" target="_blank" class="hover:scale-110 transition">
+        <img src="insta1.png" alt="Instagram" class="w-6 h-6" />
+      </a>
+      <a href="https://github.com/PallabDebnath26" target="_blank" class="hover:scale-110 transition">
+        <img src="git2.png" alt="GitHub" class="w-6 h-6" />
+      </a>
+      <a href="https://www.linkedin.com/in/pallab-debnath-402162333/" target="_blank"
+        class="hover:scale-110 transition">
+        <img src="lin.png" alt="LinkedIn" class="w-6 h-6" />
+      </a>
+    </div>
+
+    <p class="mt-4">
+      All rights reserved © <span class="font-semibold">Pallab Debnath</span><br>
+      Email: <a href="mailto:debnath2305101676@diu.edu.bd"
+        class="text-blue-600 underline">debnath2305101676@diu.edu.bd</a>
+    </p>
+
+    <div class="mt-2">
+      <a href="terms.html" class="hover:text-blue-600">Terms and Conditions</a>|
+      <a href="privacy.html" class="hover:text-blue-600">Privacy and Policy</a>
+
+    </div>
+  </footer>
+
+  <!-- JS -->
+  <script>
+    const buttons = document.querySelectorAll('.cover-type-btn');
+    const display = document.getElementById('selectedType');
+
+    buttons.forEach(button => {
+      button.addEventListener('click', function () {
+        buttons.forEach(btn => btn.classList.remove('selected'));
+        this.classList.add('selected');
+        const selected = this.getAttribute('data-type');
+        display.textContent = `You selected: ${selected}`;
+      });
+    });
+  </script>
+</body>
+
+</html>
