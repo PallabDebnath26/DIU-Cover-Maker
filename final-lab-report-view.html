@@ -5,13 +5,11 @@
   <link rel="icon" type="image/x-icon" href="diulogo.png" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Final Lab Report Cover Page</title>
+  <title>Lab Report Cover Page</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
   <style>
-    /* সব CSS একই থাকবে, কিছুতেই পরিবর্তন করা লাগবে না */
-    /* CSS তোমার আগের কোডের মতোই রাখলাম সংক্ষেপে */
     body {
       margin: 0;
       padding: 30px 20px;
@@ -32,12 +30,9 @@
       color: white;
       padding: 0.5rem 1.2rem;
       border-radius: 8px;
-      text-decoration: none;
       font-weight: 500;
-      transition: background-color 0.3s ease, transform 0.3s ease;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
       z-index: 1000;
-      animation: slideInRight 0.6s ease-out;
     }
 
     #downloadBtn:hover {
@@ -60,7 +55,6 @@
     .logo-container img {
       max-width: 300px;
       height: auto;
-      display: block;
       margin: 0 auto;
     }
 
@@ -77,51 +71,62 @@
       color: #2c3e50;
       margin: 4px 0;
       font-style: italic;
-
     }
 
     .lab-report-box {
       margin-top: 25px;
-      border: 2.5px solid black;
+      border: 2px solid black;
       padding: 8px 16px;
       font-size: 1.5rem;
       font-weight: bold;
-      color: darkblue;
+      color: red;
       display: inline-block;
       border-radius: 6px;
     }
 
     .course-details-left {
-      margin-top: 7%;
+      margin-top: 5%;
       text-align: left;
       max-width: 400px;
-      margin-left: 0;
-
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .field-container {
       display: flex;
-      align-items: center;
+      flex-wrap: wrap;
       gap: 6px;
       margin: 6px 0;
     }
 
     .field-label {
-      font-weight: bold;
+      font-weight: 700;
       font-size: 1rem;
-      color: #34495e;
-      flex-shrink: 0;
+      color: green;
     }
 
     .field-value {
       font-size: 1.1rem;
       font-weight: 500;
       color: #2c3e50;
-      flex-grow: 1;
     }
 
+    .topic-box {
+      margin-top: 25px;
+      display: inline-block;
+      border: 1.5px solid #1a237e;
+      padding: 8px 16px;
+      border-radius: 6px;
+      background-color: #fdfdfd;
+      font-size: 1.1rem;
+      color: #1a237e;
+      font-weight: 600;
+    }
 
-
+    .topic-label {
+      font-weight: 700;
+      margin-right: 5px;
+    }
 
     .submitted-section {
       margin-top: 30px;
@@ -132,8 +137,8 @@
       margin-bottom: 12px;
       font-size: 1.2rem;
       font-weight: bold;
-      color: darkred;
-      border-bottom: 2px solid darkred;
+      color: red;
+      border-bottom: 2px solid red;
       display: inline-block;
       padding-bottom: 3px;
     }
@@ -152,13 +157,9 @@
       font-weight: bold;
     }
 
-    .course-details-left .field-label {
-      color: darkgreen !important;
-    }
-
     .date-submission-section {
       margin-top: 50px;
-      border: 2.5px solid black;
+      border: 2px solid black;
       padding: 10px 20px;
       border-radius: 8px;
       width: fit-content;
@@ -171,6 +172,30 @@
       font-weight: bold;
       color: #e74c3c;
       font-size: 1.1rem;
+    }
+
+    @media (max-width: 800px) {
+      #coverPage {
+        width: 100%;
+        padding: 20px 10px;
+        border-radius: 0;
+      }
+
+      .logo-container img {
+        max-width: 180px;
+      }
+
+      .course-details-left {
+        max-width: 100%;
+        padding: 0 10px;
+      }
+
+      #downloadBtn {
+        top: 0.5rem;
+        right: 1rem;
+        font-size: 0.9rem;
+        padding: 0.4rem 0.8rem;
+      }
     }
   </style>
 </head>
@@ -185,106 +210,83 @@
     </div>
 
     <div class="university-name">Daffodil International University</div>
-
     <div class="center-info" id="previewDepartment"></div>
     <div class="center-info" id="previewFaculty"></div>
 
-    <!-- 🟨 Changed ASSIGNMENT to LAB REPORT -->
-    <div class="lab-report-box">FINAL LAB REPORT</div>
+    <div class="lab-report-box">LAB REPORT</div>
 
     <div class="course-details-left">
-
-      <div class="field-container">
-        <span class="field-label">Course Code:</span>
-        <span class="field-value" id="previewCourseCode"></span>
-      </div>
-      <div class="field-container">
-        <span class="field-label">Course Title:</span>
-        <span class="field-value" id="previewCourseTitle"></span>
-      </div>
+      <div class="field-container"><span class="field-label">Experiment No:</span><span class="field-value" id="previewExperimentNo"></span></div>
+      <div class="field-container"><span class="field-label">Experiment Name:</span><span class="field-value" id="previewExperimentName"></span></div>
+      <div class="field-container"><span class="field-label">Course Code:</span><span class="field-value" id="previewCourseCode"></span></div>
+      <div class="field-container"><span class="field-label">Course Title:</span><span class="field-value" id="previewCourseTitle"></span></div>
     </div>
 
+    <div class="topic-box">
+      <span class="topic-label">Topic:</span>
+      <span class="topic-value" id="previewTopic"></span>
+    </div>
 
-
-    <!-- Submitted By -->
     <div class="submitted-section">
       <h3>Submitted By</h3>
       <div class="submitted-line"><span class="submitted-label">Name:</span> <span id="previewStudentName"></span></div>
       <div class="submitted-line"><span class="submitted-label">ID:</span> <span id="previewStudentId"></span></div>
       <div class="submitted-line"><span class="submitted-label">Section:</span> <span id="previewSection"></span></div>
-      <div class="submitted-line"><span class="submitted-label">Semester:</span> <span id="previewSemesterYear"></span>
-      </div>
-      <div class="submitted-line"><span class="submitted-label">Department:</span> <span
-          id="previewSubmittedDepartment"></span></div>
+      <div class="submitted-line"><span class="submitted-label">Semester:</span> <span id="previewSemesterYear"></span></div>
+      <div class="submitted-line"><span class="submitted-label">Department:</span> <span id="previewSubmittedDepartment"></span></div>
       <div class="submitted-line submitted-bold" id="previewUniversity"></div>
     </div>
 
-    <!-- Submitted To -->
     <div class="submitted-section">
       <h3>Submitted To</h3>
-      <div class="submitted-line"><span class="submitted-label">Name:</span> <span id="previewSubmittedToName"></span>
-      </div>
-      <div class="submitted-line"><span class="submitted-label">Designation:</span> <span
-          id="previewDesignation"></span>
-      </div>
-      <div class="submitted-line"><span class="submitted-label">Department:</span> <span
-          id="previewSubmittedToDepartment"></span></div>
+      <div class="submitted-line"><span class="submitted-label">Name:</span> <span id="previewSubmittedToName"></span></div>
+      <div class="submitted-line"><span class="submitted-label">Designation:</span> <span id="previewDesignation"></span></div>
+      <div class="submitted-line"><span class="submitted-label">Department:</span> <span id="previewSubmittedToDepartment"></span></div>
       <div class="submitted-line submitted-bold" id="previewSubmittedToUniversity"></div>
     </div>
 
-    <!-- Date of Submission -->
     <div class="date-submission-section">
       <div class="submitted-line">
         <span class="date-label">Date of Submission:</span>
         <span id="previewSubmissionDate"></span>
       </div>
     </div>
-
   </div>
 
   <script>
-    const data = JSON.parse(sessionStorage.getItem('finalLabReportData'));
-
+    const data = JSON.parse(sessionStorage.getItem('labReportData'));
     if (!data) {
       alert('No data found. Please fill the form first.');
-      window.location.href = 'final_lab_form.html'; // 🟨 Update this if your form filename is different
+      window.location.href = 'lab_form.html';
     } else {
       document.getElementById('previewDepartment').textContent = data.department || '';
       document.getElementById('previewFaculty').textContent = data.faculty || '';
-
-
-
+      document.getElementById('previewExperimentNo').textContent = data.experimentNo || '';
+      document.getElementById('previewExperimentName').textContent = data.experimentName || '';
       document.getElementById('previewCourseCode').textContent = data.courseCode || '';
       document.getElementById('previewCourseTitle').textContent = data.courseTitle || '';
-
-
-      // Submitted By
+      document.getElementById('previewTopic').textContent = data.topic || '';
       document.getElementById('previewStudentName').textContent = data.submittedBy.name || '';
       document.getElementById('previewStudentId').textContent = data.submittedBy.studentId || '';
       document.getElementById('previewSection').textContent = data.submittedBy.section || '';
       document.getElementById('previewSemesterYear').textContent = `${data.submittedBy.semester || ''} ${data.submittedBy.year || ''}`;
       document.getElementById('previewSubmittedDepartment').textContent = data.submittedBy.department || '';
       document.getElementById('previewUniversity').textContent = data.submittedBy.university || '';
-
-      // Submitted To
       document.getElementById('previewSubmittedToName').textContent = data.submittedTo.name || '';
       document.getElementById('previewDesignation').textContent = data.submittedTo.designation || '';
       document.getElementById('previewSubmittedToDepartment').textContent = data.submittedTo.department || '';
       document.getElementById('previewSubmittedToUniversity').textContent = data.submittedTo.university || '';
 
-      // Date formatting
       if (data.submissionDate) {
-        let dateObj = new Date(data.submissionDate);
+        const dateObj = new Date(data.submissionDate);
         if (!isNaN(dateObj)) {
-          let dd = String(dateObj.getDate()).padStart(2, '0');
-          let mm = String(dateObj.getMonth() + 1).padStart(2, '0');
-          let yyyy = dateObj.getFullYear();
+          const dd = String(dateObj.getDate()).padStart(2, '0');
+          const mm = String(dateObj.getMonth() + 1).padStart(2, '0');
+          const yyyy = dateObj.getFullYear();
           document.getElementById('previewSubmissionDate').textContent = `${dd}/${mm}/${yyyy}`;
         } else {
           document.getElementById('previewSubmissionDate').textContent = data.submissionDate;
         }
-      } else {
-        document.getElementById('previewSubmissionDate').textContent = '';
       }
     }
 
@@ -309,10 +311,7 @@
         const imgData = canvas.toDataURL('image/jpeg', 1.0);
         const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
 
-        const pdfWidth = 210;
-        const pdfHeight = 297;
-
-        pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+        pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297);
 
         pdf.setDrawColor(0, 0, 139);
         pdf.setLineWidth(0.4);
@@ -323,7 +322,7 @@
         logoImg.src = 'diulogo.png';
         logoImg.crossOrigin = "anonymous";
 
-        logoImg.onload = function () {
+        logoImg.onload = () => {
           const logoWidthMM = 130;
           const logoHeightMM = (logoImg.height / logoImg.width) * logoWidthMM;
           const x = (210 - logoWidthMM) / 2;
@@ -333,12 +332,12 @@
           pdf.addImage(logoImg, 'PNG', x, y, logoWidthMM, logoHeightMM);
           pdf.setGState(new pdf.GState({ opacity: 1 }));
 
-          pdf.save("Final_lab_report_cover_page.pdf");
+          pdf.save("lab_report_cover_page.pdf");
           document.body.removeChild(wrapper);
         };
 
-        logoImg.onerror = function () {
-          pdf.save("Final_lab_report_cover_page.pdf");
+        logoImg.onerror = () => {
+          pdf.save("lab_report_cover_page.pdf");
           document.body.removeChild(wrapper);
         };
       });
