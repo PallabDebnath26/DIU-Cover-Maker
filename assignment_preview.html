@@ -8,7 +8,6 @@
   <title>Assignment Cover Page Preview</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
   <style>
     * {
       box-sizing: border-box;
@@ -176,7 +175,6 @@
       font-size: 1.1rem;
     }
 
-    /* Responsive Design for Mobile */
     @media screen and (max-width: 820px) {
       body {
         padding: 20px 10px;
@@ -314,7 +312,6 @@
       document.getElementById('previewCourseTitle').textContent = data.courseTitle || '';
       document.getElementById('previewTopic').textContent = data.topic || '';
 
-      // Submitted By
       document.getElementById('previewStudentName').textContent = data.submittedBy.name || '';
       document.getElementById('previewStudentId').textContent = data.submittedBy.studentId || '';
       document.getElementById('previewSection').textContent = data.submittedBy.section || '';
@@ -322,13 +319,11 @@
       document.getElementById('previewSubmittedDepartment').textContent = data.submittedBy.department || '';
       document.getElementById('previewUniversity').textContent = data.submittedBy.university || '';
 
-      // Submitted To
       document.getElementById('previewSubmittedToName').textContent = data.submittedTo.name || '';
       document.getElementById('previewDesignation').textContent = data.submittedTo.designation || '';
       document.getElementById('previewSubmittedToDepartment').textContent = data.submittedTo.department || '';
       document.getElementById('previewSubmittedToUniversity').textContent = data.submittedTo.university || '';
 
-      // Date formatting
       if (data.submissionDate) {
         let dateObj = new Date(data.submissionDate);
         if (!isNaN(dateObj)) {
@@ -344,7 +339,6 @@
 
     document.getElementById('downloadBtn').addEventListener('click', () => {
       const cover = document.getElementById('coverPage');
-
       const wrapper = document.createElement('div');
       wrapper.style.background = '#fff';
       wrapper.style.border = '3px solid black';
@@ -356,6 +350,7 @@
 
       const cloned = cover.cloneNode(true);
       cloned.style.margin = '0';
+      cloned.style.borderRadius = '0'; // ✅ this line makes the corner rectangular
       wrapper.appendChild(cloned);
       document.body.appendChild(wrapper);
 
