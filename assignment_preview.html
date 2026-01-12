@@ -7,7 +7,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Assignment Cover Page Preview</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
     * {
       box-sizing: border-box;
@@ -252,7 +251,7 @@
   <div id="coverPage">
     <div>
       <div class="logo-container">
-        <img src="logo.png" alt="University Logo" />
+        <img src="logo.png" alt="University Logo" id="logoImage" />
       </div>
 
       <div class="university-name">Daffodil International University</div>
@@ -348,76 +347,265 @@
     }
 
     document.getElementById('downloadBtn').addEventListener('click', () => {
-      const cover = document.getElementById('coverPage');
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF('p', 'mm', 'a4');
       
-      // Create a wrapper with exact A4 dimensions in pixels (at 96 DPI)
-      const wrapper = document.createElement('div');
-      wrapper.style.background = '#fff';
-      wrapper.style.width = '210mm';
-      wrapper.style.height = '297mm';
-      wrapper.style.position = 'absolute';
-      wrapper.style.left = '-9999px';
-      wrapper.style.top = '0';
-      
-      const cloned = cover.cloneNode(true);
-      cloned.style.margin = '0';
-      cloned.style.borderRadius = '0';
-      cloned.style.border = 'none';
-      cloned.style.boxShadow = 'none';
-      cloned.style.width = '210mm';
-      cloned.style.height = '297mm';
-      wrapper.appendChild(cloned);
-      document.body.appendChild(wrapper);
+      let yPos = 20;
+      const centerX = 105;
+      const leftMargin = 20;
 
-      // Use higher scale for better quality and proper fitting
-      html2canvas(wrapper, { 
-        scale: 3,
-        useCORS: true,
-        backgroundColor: '#ffffff',
-        width: wrapper.offsetWidth,
-        height: wrapper.offsetHeight,
-        windowWidth: wrapper.offsetWidth,
-        windowHeight: wrapper.offsetHeight
-      }).then(canvas => {
-        const imgData = canvas.toDataURL('image/jpeg', 0.95);
-        const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
+      // Add decorative borders
+      pdf.setDrawColor(0, 0, 139);
+      pdf.setLineWidth(0.4);
+      pdf.rect(6, 6, 198, 285);
+      pdf.rect(7.5, 7.5, 195, 282);
+
+      // Add logo
+      const logoImg = document.getElementById('logoImage');
+      if (logoImg && logoImg.complete) {
+        try {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          canvas.width = logoImg.naturalWidth;
+          canvas.height = logoImg.naturalHeight;
+          ctx.drawImage(logoImg, 0, 0);
+          const logoData = canvas.toDataURL('image/png');
+          const logoWidth = 70;
+          const logoHeight = (logoImg.naturalHeight / logoImg.naturalWidth) * logoWidth;
+          pdf.addImage(logoData, 'PNG', centerX - logoWidth/2, yPos, logoWidth, logoHeight);
+          yPos += logoHeight + 5;
+        } catch (e) {
+          console.log('Logo not added:', e);
+        }
+      }
+
+      // University Name
+      pdf.setFont('times', 'bold');
+      pdf.setFontSize(20);
+      pdf.setTextColor(44, 62, 80);
+      pdf.text('Daffodil International University', centerX, yPos, { align: 'center' });
+      yPos += 8;
+
+      // Department and Faculty
+      pdf.setFont('times', 'bolditalic');
+      pdf.setFontSize(12);
+      const dept = document.getElementById('previewDepartment').textContent;
+      const faculty = document.getElementById('previewFaculty').textContent;
+      if (dept) {
+        pdf.text(dept, centerX, yPos, { align: 'center' });
+        yPos += 6;
+      }
+      if (faculty) {
+        pdf.text(faculty, centerX, yPos, { align: 'center' });
+        yPos += 6;
+      }
+
+      // ASSIGNMENT Box
+      yPos += 5;
+      pdf.setDrawColor(0, 0, 0);
+      pdf.setLineWidth(0.5);
+      pdf.setFont('times', 'bold');
+      pdf.setFontSize(16);
+      pdf.setTextColor(255, 0, 0);
+      const boxText = 'ASSIGNMENT';
+      const boxWidth = pdf.getTextWidth(boxText) + 10;
+      const boxX = centerX - boxWidth/2;
+      pdf.rect(boxX, yPos - 5, boxWidth, 10, 'S');
+      pdf.text(boxText, centerX, yPos, { align: 'center' });
+      yPos += 15;
+
+      // Course Details
+      pdf.setFont('times', 'bold');
+      pdf.setFontSize(11);
+      pdf.setTextColor(0, 128, 0);
+      const courseCode = document.getElementById('previewCourseCode').textContent;
+      const courseTitle = document.getElementById('previewCourseTitle').textContent;
+      
+      if (courseCode) {
+        pdf.text('Course Code:', leftMargin + 20, yPos);
+        pdf.setFont('times', 'normal');
+        pdf.setTextColor(44, 62, 80);
+        pdf.setFontSize(12);
+        pdf.text(courseCode, leftMargin + 55, yPos);
+        yPos += 7;
+      }
+      
+      if (courseTitle) {
+        pdf.setFont('times', 'bold');
+        pdf.setFontSize(11);
+        pdf.setTextColor(0, 128, 0);
+        pdf.text('Course Title:', leftMargin + 20, yPos);
+        pdf.setFont('times', 'normal');
+        pdf.setTextColor(44, 62, 80);
+        pdf.setFontSize(12);
+        pdf.text(courseTitle, leftMargin + 55, yPos);
+        yPos += 10;
+      }
+
+      // Topic Box
+      const topic = document.getElementById('previewTopic').textContent;
+      if (topic) {
+        yPos += 5;
+        pdf.setDrawColor(26, 35, 126);
+        pdf.setLineWidth(0.3);
+        const topicText = 'Topic: ' + topic;
+        const topicWidth = pdf.getTextWidth(topicText) + 10;
+        const topicX = centerX - topicWidth/2;
+        pdf.setFillColor(253, 253, 253);
+        pdf.roundedRect(topicX, yPos - 5, topicWidth, 10, 2, 2, 'FD');
+        pdf.setFont('times', 'bold');
+        pdf.setFontSize(12);
+        pdf.setTextColor(26, 35, 126);
+        pdf.text(topicText, centerX, yPos, { align: 'center' });
+        yPos += 15;
+      }
+
+      // Submitted By Section
+      yPos += 5;
+      pdf.setFont('times', 'bold');
+      pdf.setFontSize(13);
+      pdf.setTextColor(255, 0, 0);
+      pdf.text('Submitted By', centerX, yPos, { align: 'center' });
+      pdf.setDrawColor(255, 0, 0);
+      pdf.setLineWidth(0.5);
+      pdf.line(centerX - 20, yPos + 1, centerX + 20, yPos + 1);
+      yPos += 7;
+
+      pdf.setFont('times', 'bold');
+      pdf.setFontSize(11);
+      pdf.setTextColor(44, 62, 80);
+      
+      const studentName = document.getElementById('previewStudentName').textContent;
+      const studentId = document.getElementById('previewStudentId').textContent;
+      const section = document.getElementById('previewSection').textContent;
+      const semesterYear = document.getElementById('previewSemesterYear').textContent;
+      const submittedDept = document.getElementById('previewSubmittedDepartment').textContent;
+      const university = document.getElementById('previewUniversity').textContent;
+
+      if (studentName) {
+        pdf.text('Name: ', centerX - 30, yPos);
+        pdf.setFont('times', 'normal');
+        pdf.text(studentName, centerX - 18, yPos);
+        yPos += 6;
+      }
+      if (studentId) {
+        pdf.setFont('times', 'bold');
+        pdf.text('ID: ', centerX - 30, yPos);
+        pdf.setFont('times', 'normal');
+        pdf.text(studentId, centerX - 24, yPos);
+        yPos += 6;
+      }
+      if (section) {
+        pdf.setFont('times', 'bold');
+        pdf.text('Section: ', centerX - 30, yPos);
+        pdf.setFont('times', 'normal');
+        pdf.text(section, centerX - 15, yPos);
+        yPos += 6;
+      }
+      if (semesterYear) {
+        pdf.setFont('times', 'bold');
+        pdf.text('Semester: ', centerX - 30, yPos);
+        pdf.setFont('times', 'normal');
+        pdf.text(semesterYear, centerX - 11, yPos);
+        yPos += 6;
+      }
+      if (submittedDept) {
+        pdf.setFont('times', 'bold');
+        pdf.text('Department: ', centerX - 30, yPos);
+        pdf.setFont('times', 'normal');
+        pdf.text(submittedDept, centerX - 7, yPos);
+        yPos += 6;
+      }
+      if (university) {
+        pdf.setFont('times', 'bold');
+        pdf.text(university, centerX, yPos, { align: 'center' });
+        yPos += 10;
+      }
+
+      // Submitted To Section
+      yPos += 5;
+      pdf.setFont('times', 'bold');
+      pdf.setFontSize(13);
+      pdf.setTextColor(255, 0, 0);
+      pdf.text('Submitted To', centerX, yPos, { align: 'center' });
+      pdf.setDrawColor(255, 0, 0);
+      pdf.setLineWidth(0.5);
+      pdf.line(centerX - 20, yPos + 1, centerX + 20, yPos + 1);
+      yPos += 7;
+
+      pdf.setFont('times', 'bold');
+      pdf.setFontSize(11);
+      pdf.setTextColor(44, 62, 80);
+
+      const teacherName = document.getElementById('previewSubmittedToName').textContent;
+      const designation = document.getElementById('previewDesignation').textContent;
+      const teacherDept = document.getElementById('previewSubmittedToDepartment').textContent;
+      const teacherUniv = document.getElementById('previewSubmittedToUniversity').textContent;
+
+      if (teacherName) {
+        pdf.text('Name: ', centerX - 30, yPos);
+        pdf.setFont('times', 'normal');
+        pdf.text(teacherName, centerX - 18, yPos);
+        yPos += 6;
+      }
+      if (designation) {
+        pdf.setFont('times', 'bold');
+        pdf.text('Designation: ', centerX - 30, yPos);
+        pdf.setFont('times', 'normal');
+        pdf.text(designation, centerX - 7, yPos);
+        yPos += 6;
+      }
+      if (teacherDept) {
+        pdf.setFont('times', 'bold');
+        pdf.text('Department: ', centerX - 30, yPos);
+        pdf.setFont('times', 'normal');
+        pdf.text(teacherDept, centerX - 7, yPos);
+        yPos += 6;
+      }
+      if (teacherUniv) {
+        pdf.setFont('times', 'bold');
+        pdf.text(teacherUniv, centerX, yPos, { align: 'center' });
+        yPos += 10;
+      }
+
+      // Date of Submission
+      const submissionDate = document.getElementById('previewSubmissionDate').textContent;
+      if (submissionDate) {
+        yPos = 270;
+        pdf.setDrawColor(0, 0, 0);
+        pdf.setLineWidth(0.5);
+        const dateBoxWidth = 80;
+        const dateBoxX = centerX - dateBoxWidth/2;
+        pdf.rect(dateBoxX, yPos - 7, dateBoxWidth, 12, 'S');
         
-        // Add the image to fill the entire A4 page
-        pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297);
+        pdf.setFont('times', 'bold');
+        pdf.setFontSize(12);
+        pdf.setTextColor(231, 76, 60);
+        pdf.text('Date of Submission: ', centerX - 28, yPos);
+        pdf.setTextColor(44, 62, 80);
+        pdf.text(submissionDate, centerX + 16, yPos);
+      }
 
-        // Add decorative borders with proper margins
-        pdf.setDrawColor(0, 0, 139);
-        pdf.setLineWidth(0.4);
-        pdf.rect(6, 6, 198, 285);
-        pdf.rect(7.5, 7.5, 195, 282);
+      // Add watermark
+      const watermarkImg = new Image();
+      watermarkImg.src = 'diulogo.png';
+      watermarkImg.crossOrigin = "anonymous";
 
-        // Add watermark
-        const logoImg = new Image();
-        logoImg.src = 'diulogo.png';
-        logoImg.crossOrigin = "anonymous";
+      watermarkImg.onload = function () {
+        const logoWidthMM = 130;
+        const logoHeightMM = (watermarkImg.height / watermarkImg.width) * logoWidthMM;
+        const x = (210 - logoWidthMM) / 2;
+        const y = (297 - logoHeightMM) / 2;
 
-        logoImg.onload = function () {
-          const logoWidthMM = 130;
-          const logoHeightMM = (logoImg.height / logoImg.width) * logoWidthMM;
-          const x = (210 - logoWidthMM) / 2;
-          const y = (297 - logoHeightMM) / 2;
+        pdf.setGState(new pdf.GState({ opacity: 0.1 }));
+        pdf.addImage(watermarkImg, 'PNG', x, y, logoWidthMM, logoHeightMM);
+        pdf.setGState(new pdf.GState({ opacity: 1 }));
+        pdf.save("assignment_cover_page.pdf");
+      };
 
-          pdf.setGState(new pdf.GState({ opacity: 0.1 }));
-          pdf.addImage(logoImg, 'PNG', x, y, logoWidthMM, logoHeightMM);
-          pdf.setGState(new pdf.GState({ opacity: 1 }));
-          pdf.save("assignment_cover_page.pdf");
-          document.body.removeChild(wrapper);
-        };
-
-        logoImg.onerror = function () {
-          pdf.save("assignment_cover_page.pdf");
-          document.body.removeChild(wrapper);
-        };
-      }).catch(err => {
-        console.error('Error generating PDF:', err);
-        alert('Error generating PDF. Please try again.');
-        document.body.removeChild(wrapper);
-      });
+      watermarkImg.onerror = function () {
+        pdf.save("assignment_cover_page.pdf");
+      };
     });
   </script>
 
